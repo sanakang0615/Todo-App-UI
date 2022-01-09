@@ -119,6 +119,9 @@ class _DynamicEventState extends State<DynamicEvent> {
           Icon(Icons.person_outline, size: 30,color: selsctedIconIndex == 4 ? white : black,),
         ],
       ),
+
+
+
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -260,7 +263,7 @@ class _DynamicEventState extends State<DynamicEvent> {
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: Colors.white70,
-          title: Text("투두 추가하기"),
+          title: Text("➕ 목표 추가하기"),
           content: TextField(
             controller: _eventController,
           ),
