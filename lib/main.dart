@@ -1,7 +1,10 @@
+import 'package:UnivTodo/screens/login/components/kakaoLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:UnivTodo/screens/login/login_screen.dart';
+import 'package:kakao_flutter_sdk/all.dart';
 
 void main() {
+  KakaoContext.clientId = '	54d1ac747f51dee29eb7f1735f0486c7';
   runApp(MyApp());
 }
 
@@ -16,7 +19,9 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: LoginScreen(),
+      home: LoginScreen()
+        //KakaoLoginPage(),
+      //LoginScreen(),
     );
   }
 }

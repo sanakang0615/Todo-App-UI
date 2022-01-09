@@ -1,7 +1,8 @@
+import 'package:UnivTodo/screens/login/components/kakaoLogin.dart';
 import 'package:flutter/material.dart';
 import 'package:UnivTodo/constants/constants.dart';
 import 'package:UnivTodo/screens/home/home_screen.dart';
-
+import 'package:kakao_flutter_sdk/all.dart';
 
 
 class LoginCredentials extends StatelessWidget {
@@ -83,7 +84,7 @@ class LoginCredentials extends StatelessWidget {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
+                      builder: (context) => KakaoLoginPage(),
                     ),
                   ),
                   child: Material(
