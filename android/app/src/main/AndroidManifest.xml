@@ -44,7 +44,7 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="kakao54d1ac747f51dee29eb7f1735f0486c7://oauth" />
+                <data android:scheme="webauthcallback" />
             </intent-filter>
         </activity>
 

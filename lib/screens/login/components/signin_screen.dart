@@ -1,10 +1,11 @@
 import 'package:UnivTodo/constants/constants.dart';
-import 'package:UnivTodo/screens/login/components/signin_screen.dart';
+import 'package:UnivTodo/screens/login/components/background2.dart';
+import 'package:UnivTodo/screens/login/login_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:UnivTodo/screens/login/components/background_image_clipper.dart';
 import 'package:UnivTodo/screens/login/components/circle_button.dart';
-import 'package:UnivTodo/screens/login/components/login_credentials.dart';
+import 'package:UnivTodo/screens/login/components/signin_credentials.dart';
 import 'package:kakao_flutter_sdk/all.dart';
 import 'package:UnivTodo/screens/login/components/kakaoLogin.dart';
 import 'package:flutter_web_auth/flutter_web_auth.dart';
@@ -14,13 +15,13 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:UnivTodo/data/db.dart';
 
-class LoginScreen extends StatefulWidget {
+class SigninScreen extends StatefulWidget {
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  _SigninScreenState createState() => _SigninScreenState();
 }
 
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SigninScreenState extends State<SigninScreen> {
   Future myFuture;
 
   @override
@@ -40,36 +41,34 @@ class _LoginScreenState extends State<LoginScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                BackgroundImage(),
-                LoginCredentials(),
+                BackgroundImage2(),
+                SigninCredentials(),
                 Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: size.height * 0.053,
-                    ),
-                    Text( '아직 계정이 없으신가요?',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black.withOpacity(0.68),
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      SizedBox(
+                        height: size.height * 0.053,
                       ),
-
-                    ),
-                    TextButton(
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => SigninScreen()
-                          )
+                      Text( '이미 계정이 있으신가요?',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black.withOpacity(0.68)
                         ),
-                        child: Text("회원가입하기"),
-                        style: TextButton.styleFrom(
-                          textStyle: TextStyle(fontWeight: FontWeight.bold),
-                        )
-
-                    ),
-                  ]
+                      ),
+                      TextButton(
+                          onPressed: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => LoginScreen()
+                              )
+                          ),
+                          child: Text("로그인하기"),
+                          style: TextButton.styleFrom(
+                            textStyle: TextStyle(fontWeight: FontWeight.bold),
+                          )
+                      ),
+                    ]
                 ),
                 SizedBox(
                   height: size.height * 0.0135,
@@ -78,7 +77,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Container(
                     alignment: Alignment.center,
                     child: SizedBox(
-                        height: 40.0,
+                        height: 30.0,
                         width: 300.0,
                         child: TextButton.icon(
 
