@@ -3,6 +3,8 @@ import 'package:UnivTodo/constants/constants.dart';
 import 'package:UnivTodo/data/data.dart';
 import 'package:UnivTodo/models/style.dart';
 
+// Not for the todolist function
+// For the course list in the main home
 
 class Todo extends StatelessWidget {
   _buildStyles(BuildContext context, int index) {

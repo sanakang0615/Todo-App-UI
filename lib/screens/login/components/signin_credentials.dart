@@ -24,13 +24,13 @@ import 'package:UnivTodo/data/db.dart';
 
 
 
-class LoginCredentials extends StatelessWidget {
+class SigninCredentials extends StatelessWidget {
   Future<Post> post;
 
-  LoginCredentials({Key key, @required this.post}) : super(key: key);
+  SigninCredentials({Key key, @required this.post}) : super(key: key);
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController new_emailController = TextEditingController();
+  TextEditingController new_passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +43,7 @@ class LoginCredentials extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            ' Login Page',
+            ' Sign-in Page',
             style: TextStyle(
               fontSize: 24,
             ),
@@ -56,7 +56,7 @@ class LoginCredentials extends StatelessWidget {
             color: white,
             borderRadius: BorderRadius.circular(30.0),
             child: TextField(
-              controller: emailController,
+              controller: new_emailController,
               decoration: InputDecoration(
                 border:
                 OutlineInputBorder(borderSide: BorderSide.none),
@@ -81,7 +81,7 @@ class LoginCredentials extends StatelessWidget {
             color: white,
             borderRadius: BorderRadius.circular(30.0),
             child: TextField(
-              controller: passwordController,
+              controller: new_passwordController,
               obscureText: true,
               decoration: InputDecoration(
                 border:
@@ -107,41 +107,7 @@ class LoginCredentials extends StatelessWidget {
           Align(
             alignment: Alignment.center,
             child: Center(
-              child: Row(
-              children: [
-                InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => KakaoLoginPage(),
-                    ),
-                  ),
-                  child: Material(
-                      elevation: 10.0,
-                      shadowColor: blueGrey.withOpacity(0.65),
-                      color: blueGrey.withOpacity(0.65),
-                      borderRadius: BorderRadius.circular(30.0),
-                      child: Container(
-                        width: size.width*0.42,
-                        height: size.width * 0.12,
-                        child: Center(
-                          child: Text(
-                            '카카오톡 로그인',
-                            style: TextStyle(
-                              color: white,
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      )),
-                ),
-
-                SizedBox(
-                  width: size.width * 0.033,
-                ),
-
-                InkWell(
+              child: InkWell(
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -158,7 +124,7 @@ class LoginCredentials extends StatelessWidget {
                         height: size.width * 0.12,
                         child: Center(
                           child: Text(
-                            '접속하기',
+                            '가입하기',
                             style: TextStyle(
                               color: white,
                               fontSize: 16,
@@ -168,13 +134,14 @@ class LoginCredentials extends StatelessWidget {
                         ),
                       )),
                 ),
+          ))
               ],
-            ),),
+
+
 
           )
 
-        ],
-      ),
+
     );
   }
 }

@@ -119,6 +119,9 @@ class _DynamicEventState extends State<DynamicEvent> {
           Icon(Icons.person_outline, size: 30,color: selsctedIconIndex == 4 ? white : black,),
         ],
       ),
+
+
+
       backgroundColor: Colors.grey[100],
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -239,7 +242,11 @@ class _DynamicEventState extends State<DynamicEvent> {
                     icon: Icon(Icons.delete),
                     color: blueGrey.withOpacity(0.8),
                     iconSize: 20.0,
-                    onPressed: () {},
+                    onPressed: () {
+                      setState(() {
+                        _events[_controller.selectedDay].remove(_eventController.text);
+                      });
+                    },
                   ),
                 ],),
 
@@ -260,7 +267,7 @@ class _DynamicEventState extends State<DynamicEvent> {
         context: context,
         builder: (context) => AlertDialog(
           backgroundColor: Colors.white70,
-          title: Text("투두 추가하기"),
+          title: Text("➕ 목표 추가하기"),
           content: TextField(
             controller: _eventController,
           ),
@@ -271,8 +278,7 @@ class _DynamicEventState extends State<DynamicEvent> {
                 if (_eventController.text.isEmpty) return;
                 setState(() {
                   if (_events[_controller.selectedDay] != null) {
-                    _events[_controller.selectedDay]
-                        .add(_eventController.text);
+                    _events[_controller.selectedDay].add(_eventController.text);
                   } else {
                     _events[_controller.selectedDay] = [
                       _eventController.text
