@@ -1,9 +1,35 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:UnivTodo/data/db.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:kakao_flutter_sdk/all.dart';
-import 'package:uuid/uuid.dart';
+import 'package:kakao_flutter_sdk/auth.dart';
+import 'package:http/http.dart' as http;
 
+
+
+requestMe(kakaoAccessToken) async {
+  print(kakaoAccessToken.toString());
+  String v = jsonEncode(kakaoAccessToken);
+  // var result = await http.get(Uri.parse('https://kapi.kakao.com/v2/user/me'),
+  //   headers: { HttpHeaders.authorizationHeader: 'Bearer ' + kakaoAccessToken["access_token"]});
+  // print(result.statusCode);
+  int result = 0;
+  return result;
+}
+
+_issueAccessToken(String authCode) async {
+  try {
+    var token = await AuthApi.instance.issueAccessToken(authCode);
+    //print(token);
+    requestMe(token);
+
+  } catch (e) {
+    print("error on issuing access token: $e");
+  }
+}
 
 class KakaoLoginPage extends StatefulWidget {
   @override
@@ -12,27 +38,14 @@ class KakaoLoginPage extends StatefulWidget {
 
 class _KakaoLoginPageState extends State<KakaoLoginPage> {
   Future<void> _loginButtonPressed() async {
-    String authCode = await AuthCodeClient.instance.request();
-    print(authCode);
-
-
-    final clientState = Uuid().v4();
-    final url = Uri.https('kauth.kakao.com', '/oauth/authorize', {
-      'response_type': 'code',
-      'client_id': '745ffe68d06ddbf22efb96dc9fc84f47',
-      'redirect_uri': 'http://192.249.18.137:80/user/kakao',
-      'state': clientState,
-    });
-
-    final result = await FlutterWebAuth.authenticate(
-        url: url.toString(), callbackUrlScheme: "webauthcallback");
-
-    final body = Uri.parse(result).queryParameters;
-    print(body);
+    try {
+      String authCode = await AuthCodeClient.instance.request();
+      //print(authCode);
+      await _issueAccessToken(authCode);
+    } catch(e){
+      //print(e);
+    }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +59,7 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
               width: MediaQuery.of(context).size.width,
               child: CupertinoButton(
                 onPressed: _loginButtonPressed,
-                color: Colors.yellow.withOpacity(0.9),
+                color: Colors.yellow,
                 child: Text(
                   '카카오 로그인',
                   style: TextStyle(
