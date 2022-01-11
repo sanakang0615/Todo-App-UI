@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  KakaoContext.clientId = 'cc69a0dc9f878280d4bd6b1f87a1dadb';
+  KakaoContext.clientId = '54d1ac747f51dee29eb7f1735f0486c7';
   runApp(MyApp());
 }
 

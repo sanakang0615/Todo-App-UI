@@ -1,5 +1,6 @@
 import 'package:UnivTodo/screens/home/components/calendar.dart';
 import 'package:UnivTodo/screens/home/components/todo.dart';
+import 'package:UnivTodo/screens/home/home_screen.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -7,37 +8,44 @@ import 'package:UnivTodo/constants/constants.dart';
 import 'package:UnivTodo/screens/home/components/courses.dart';
 import 'package:UnivTodo/screens/home/components/custom_app_bar.dart';
 import 'package:UnivTodo/screens/home/components/search_bar.dart';
+import 'package:UnivTodo/screens/home/components/profile_page.dart';
 import 'package:UnivTodo/screens/home/components/profile.dart';
 import 'package:UnivTodo/screens/home/components/diff_styles.dart';
 import 'package:UnivTodo/screens/home/components/profile_page.dart';
 
 
-class HomeScreen extends StatefulWidget {
+class Pf extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _PfState createState() => _PfState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _PfState extends State<Pf> {
 
-  int selsctedIconIndex = 2;
+  int selsctedIconIndex = 4;
 
   @override
   Widget build(BuildContext context) {
 
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.grey[100],
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.blueGrey,
+        title: Text('📝 나의 프로필'),
+      ),
+
+
       extendBody: true,
       body: Padding(
         padding: EdgeInsets.only(top:appPadding * 2),
 
         child: Column(
           children: [
-            CustomAppBar(),
-            Todo(),
-            Courses(),
+            ProfilePage(),
           ],
         ),
       ),
+
       bottomNavigationBar: CurvedNavigationBar(
         backgroundColor: Colors.transparent,
         index: selsctedIconIndex,
@@ -99,6 +107,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
         ],
       ),
+
+
     );
   }
 }

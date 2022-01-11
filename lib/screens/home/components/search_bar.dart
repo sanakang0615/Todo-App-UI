@@ -7,6 +7,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:UnivTodo/constants/constants.dart';
 import 'package:UnivTodo/screens/home/components/calendar.dart';
+import 'package:UnivTodo/screens/home/components/profile.dart';
 
 //void main() => runApp(MyApp());
 
@@ -95,9 +96,7 @@ class _HomeState extends State<Home> {
                   builder: (context) => HomeScreen(),
                 ),
               ),
-              child: Icon(
-                Icons.home_outlined, size: 30,color: selsctedIconIndex == 2 ? white : black,
-              )
+              child: Icon(Icons.home_outlined, size: 30,color: selsctedIconIndex == 2 ? white : black,)
           ),
           InkWell(
             onTap: () => Navigator.push(
@@ -112,7 +111,16 @@ class _HomeState extends State<Home> {
                 color: selsctedIconIndex == 3 ? white : black
             ),
           ),
-          Icon(Icons.person_outline, size: 30,color: selsctedIconIndex == 4 ? white : black,),
+          InkWell(
+            onTap: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Pf(),
+              ),
+            ),
+            child: Icon(Icons.person_outline, size: 30,color: selsctedIconIndex == 4 ? white : black,),
+          ),
+
         ],
       ),
 

@@ -1,38 +1,95 @@
+import 'dart:convert';
+import 'dart:io';
+import 'package:UnivTodo/data/db.dart';
+import 'package:UnivTodo/screens/login/login_screen.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_web_auth/flutter_web_auth.dart';
 import 'package:kakao_flutter_sdk/all.dart';
-import 'package:uuid/uuid.dart';
+import 'package:kakao_flutter_sdk/auth.dart';
+import 'package:http/http.dart' as http;
+import 'package:toast/toast.dart';
+import 'package:UnivTodo/screens/home/home_screen.dart';
+import 'package:UnivTodo/screens/login/login_screen.dart';
+
+Future<Auth> kakaoAuth(kakaoId, BuildContext c) async {
+  print(kakaoId);
+  var result = await http.post(Uri.parse('http://192.249.18.137/user/kakao/sign-in'),
+      headers: { HttpHeaders.contentTypeHeader: 'application/json'},
+      body: jsonEncode({
+        'kakaoId': kakaoId,
+      })
+  );
+  print(result.toString());
+  print(result.statusCode);
+  Auth a = Auth.fromJson(json.decode(result.body));
+  AuthData adata = AuthData.fromJson(a.data);
+
+  if (a.statusCode == 200) {
+    Toast.show(a.responseMessage, c);
+    Navigator.push(
+      c,
+      MaterialPageRoute(builder: (context) => HomeScreen()),
+    );
+  }
+
+    else {
+      Toast.show(a.responseMessage, c);
+      Navigator.push(
+        c,
+        MaterialPageRoute(builder: (context) => LoginScreen()),
+      );
+    }
+
+}
+
+requestMe(kakaoAccessToken, BuildContext c) async {
+  String tk = kakaoAccessToken.toString();
+  String v = jsonEncode(kakaoAccessToken);
+
+  var result = await http.get(Uri.parse('https://kapi.kakao.com/v2/user/me'),
+      headers: { HttpHeaders.authorizationHeader: 'Bearer ' + tk.substring(17,tk.indexOf('"', 18))});
+  String bd = result.body.toString();
+  String bdd = bd.substring(6, bd.indexOf('"', 7)-1);
+  print(bdd);
+
+  return kakaoAuth(int.parse(bdd), c);
+}
+
+
+
+_issueAccessToken(String authCode, BuildContext c) async {
+  try {
+    var token = await AuthApi.instance.issueAccessToken(authCode);
+    print(token);
+    return requestMe(token, c);
+
+  } catch (e) {
+    print("error on issuing access token: $e");
+  }
+}
 
 
 class KakaoLoginPage extends StatefulWidget {
   @override
   _KakaoLoginPageState createState() => _KakaoLoginPageState();
+
 }
 
+
 class _KakaoLoginPageState extends State<KakaoLoginPage> {
-  Future<void> _loginButtonPressed() async {
-    String authCode = await AuthCodeClient.instance.request();
-    print(authCode);
 
+  String atk;
 
-    final clientState = Uuid().v4();
-    final url = Uri.https('kauth.kakao.com', '/oauth/authorize', {
-      'response_type': 'code',
-      'client_id': '745ffe68d06ddbf22efb96dc9fc84f47',
-      'redirect_uri': 'http://192.249.18.137:80/user/kakao',
-      'state': clientState,
-    });
-
-    final result = await FlutterWebAuth.authenticate(
-        url: url.toString(), callbackUrlScheme: "webauthcallback");
-
-    final body = Uri.parse(result).queryParameters;
-    print(body);
+  _loginButtonPressed() async {
+    try {
+      String authCode = await AuthCodeClient.instance.request();
+      print(authCode);
+      atk = await _issueAccessToken(authCode, context);
+    } catch (e) {
+      print(e);
+    }
   }
-
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -43,10 +100,13 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             SizedBox(
-              width: MediaQuery.of(context).size.width,
+              width: MediaQuery
+                  .of(context)
+                  .size
+                  .width,
               child: CupertinoButton(
                 onPressed: _loginButtonPressed,
-                color: Colors.yellow.withOpacity(0.9),
+                color: Colors.yellow,
                 child: Text(
                   '카카오 로그인',
                   style: TextStyle(
@@ -61,4 +121,20 @@ class _KakaoLoginPageState extends State<KakaoLoginPage> {
       ),
     );
   }
+
+  Future<Post> fetchPost() async {
+    var response =
+    await http.post(
+        Uri.parse('http://192.249.18.137/kakao/sign-in'),
+        headers: <String, String>{
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'kakaoId': atk,
+        })
+    );
+    print(response.toString());
+  }
 }
+
+

@@ -20,6 +20,7 @@ import 'dart:async'; // async/await 를 이용하기 위한 라이브러리이�
 import 'dart:convert'; // json 데이터 변환용 라이브러리
 import 'package:http/http.dart' as http; // Http 프로토콜을 이용하기 위한 패키지
 import 'package:UnivTodo/data/db.dart';
+import 'package:toast/toast.dart';
 
 
 
@@ -142,12 +143,40 @@ class LoginCredentials extends StatelessWidget {
                 ),
 
                 InkWell(
-                  onTap: () => Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => HomeScreen(),
-                    ),
-                  ),
+                  onTap: () {
+                      fetchLogin() async {
+                        var response =
+                          await http.post(
+                          Uri.parse('http://192.249.18.137/user/sign-in'),
+                        headers: <String, String>{
+                          'Content-Type': 'application/json',
+                        },
+                        body: jsonEncode({
+                          'email': emailController.text,
+                          'password': passwordController.text,
+                          'auth_type': 'APP',
+                          })
+                          );
+                        Auth result = Auth.fromJson(json.decode(response.body));
+                        AuthData result_data = AuthData.fromJson(result.data);
+
+                        if (result.statusCode == 200) {
+                          Toast.show(result.responseMessage, context);
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                          );
+                        }
+                        else {
+                          Toast.show(result.responseMessage, context);
+                          Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => LoginScreen()),
+                          );
+                            }
+                        }
+                      fetchLogin();
+                   },
                   child: Material(
                       elevation: 10.0,
                       shadowColor: blueGrey.withOpacity(0.65),
