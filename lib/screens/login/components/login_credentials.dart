@@ -21,24 +21,36 @@ import 'dart:convert'; // json 데이터 변환용 라이브러리
 import 'package:http/http.dart' as http; // Http 프로토콜을 이용하기 위한 패키지
 import 'package:UnivTodo/data/db.dart';
 import 'package:toast/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:UnivTodo/screens/login/login_screen.dart';
 
 
 TextEditingController emailController = TextEditingController();
 TextEditingController passwordController = TextEditingController();
 
+class Post {
+  final int statusCode;
+  final String responseMessage;
+  final String data;
+
+  Post({this.statusCode, this.responseMessage, this.data});
+
+  // factory 생성자. Post 타입의 인스턴스를 반환
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+        statusCode: json['statusCode'],
+        responseMessage: json['responseMessage'],
+        data: json['data']);
+  }
+}
 
 class LoginCredentials extends StatelessWidget {
   Future<Post> post;
-
+  SharedPreferences user_info;
   LoginCredentials({Key key, @required this.post}) : super(key: key);
-
-
-
   @override
   Widget build(BuildContext context) {
-
     Size size = MediaQuery.of(context).size;
-
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: appPadding),
       child: Column(
@@ -163,6 +175,10 @@ class LoginCredentials extends StatelessWidget {
 
                         if (result.statusCode == 200) {
                           Toast.show(result.responseMessage, context);
+                          final user_info = await SharedPreferences.getInstance();
+                          user_info.setString("accessToken", result_data.accessToken);
+                          user_info.setString("refreshToken", result_data.refreshToken);
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => HomeScreen()),

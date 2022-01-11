@@ -11,8 +11,27 @@ import 'package:http/http.dart' as http;
 import 'package:toast/toast.dart';
 import 'package:UnivTodo/screens/home/home_screen.dart';
 import 'package:UnivTodo/screens/login/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class Post {
+  final int statusCode;
+  final String responseMessage;
+  final String data;
+
+  Post({this.statusCode, this.responseMessage, this.data});
+
+  // factory 생성자. Post 타입의 인스턴스를 반환
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+        statusCode: json['statusCode'],
+        responseMessage: json['responseMessage'],
+        data: json['data']);
+  }
+}
+
 
 Future<Auth> kakaoAuth(kakaoId, BuildContext c) async {
+  SharedPreferences user_info = await SharedPreferences.getInstance();
   print(kakaoId);
   var result = await http.post(Uri.parse('http://192.249.18.137/user/kakao/sign-in'),
       headers: { HttpHeaders.contentTypeHeader: 'application/json'},
@@ -27,6 +46,10 @@ Future<Auth> kakaoAuth(kakaoId, BuildContext c) async {
 
   if (a.statusCode == 200) {
     Toast.show(a.responseMessage, c);
+
+    user_info.setString("accessToken", adata.accessToken);
+    user_info.setString("refreshToken", adata.refreshToken);
+
     Navigator.push(
       c,
       MaterialPageRoute(builder: (context) => HomeScreen()),

@@ -21,6 +21,23 @@ import 'dart:convert'; // json 데이터 변환용 라이브러리
 import 'package:http/http.dart' as http; // Http 프로토콜을 이용하기 위한 패키지
 import 'package:UnivTodo/data/db.dart';
 import 'package:toast/toast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class Post {
+  final int statusCode;
+  final String responseMessage;
+  final String data;
+
+  Post({this.statusCode, this.responseMessage, this.data});
+
+  // factory 생성자. Post 타입의 인스턴스를 반환
+  factory Post.fromJson(Map<String, dynamic> json) {
+    return Post(
+        statusCode: json['statusCode'],
+        responseMessage: json['responseMessage'],
+        data: json['data']);
+  }
+}
 
 TextEditingController new_emailController = TextEditingController();
 TextEditingController new_passwordController = TextEditingController();
@@ -132,6 +149,9 @@ class SigninCredentials extends StatelessWidget {
 
                         if (result.statusCode == 200) {
                           Toast.show(result.responseMessage, context);
+
+
+
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => LoginScreen()),
