@@ -20,8 +20,10 @@ import 'dart:async'; // async/await 를 이용하기 위한 라이브러리이�
 import 'dart:convert'; // json 데이터 변환용 라이브러리
 import 'package:http/http.dart' as http; // Http 프로토콜을 이용하기 위한 패키지
 import 'package:UnivTodo/data/db.dart';
+import 'package:toast/toast.dart';
 
-
+TextEditingController new_emailController = TextEditingController();
+TextEditingController new_passwordController = TextEditingController();
 
 
 class SigninCredentials extends StatelessWidget {
@@ -32,8 +34,7 @@ class SigninCredentials extends StatelessWidget {
 
   SigninCredentials({Key key, @required this.post}) : super(key: key);
 
-  TextEditingController new_emailController = TextEditingController();
-  TextEditingController new_passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -128,11 +129,21 @@ class SigninCredentials extends StatelessWidget {
                             })
                         );
                         Post result = Post.fromJson(json.decode(response.body));
-                        status_code = result.statusCode;
-                        return_msg = result.responseMessage;
 
-                        if (status_code == 200) {
+                        if (result.statusCode == 200) {
+                          Toast.show(result.responseMessage, context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LoginScreen()),
+                          );
 
+                        }
+                        else {
+                          Toast.show(result.responseMessage, context);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => SigninCredentials()),
+                          );
                         }
                       }
                       print(status_code);

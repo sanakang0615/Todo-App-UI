@@ -10,7 +10,7 @@ import 'package:UnivTodo/screens/home/components/search_bar.dart';
 import 'package:UnivTodo/screens/home/components/profile.dart';
 import 'package:UnivTodo/screens/home/components/diff_styles.dart';
 import 'package:UnivTodo/screens/home/components/profile_page.dart';
-
+import 'package:toast/toast.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

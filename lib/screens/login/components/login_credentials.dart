@@ -23,6 +23,8 @@ import 'package:UnivTodo/data/db.dart';
 import 'package:toast/toast.dart';
 
 
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
 
 
 class LoginCredentials extends StatelessWidget {
@@ -30,8 +32,7 @@ class LoginCredentials extends StatelessWidget {
 
   LoginCredentials({Key key, @required this.post}) : super(key: key);
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+
 
   @override
   Widget build(BuildContext context) {
@@ -163,8 +164,8 @@ class LoginCredentials extends StatelessWidget {
                         if (result.statusCode == 200) {
                           Toast.show(result.responseMessage, context);
                           Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => HomeScreen()),
+                            context,
+                            MaterialPageRoute(builder: (context) => HomeScreen()),
                           );
                         }
                         else {
