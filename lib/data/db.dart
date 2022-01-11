@@ -35,7 +35,7 @@ class newMember {
 class UserInfo {
   final int statusCode;
   final String responseMessage;
-  final UserInfoData data;
+  final Map<String, dynamic> data;
 
   UserInfo({this.statusCode, this.responseMessage, this.data});
   factory UserInfo.fromJson(Map<String, dynamic> json) {
@@ -50,9 +50,9 @@ class UserInfo {
 class UserInfoData {
   final String email;
   final String name;
-  final List<Map<String, dynamic>> organizations;
-  final List<Map<String, dynamic>> followers;
-  final List<Map<String, dynamic>> follows;
+  final List<dynamic> organizations;
+  final List<dynamic> followers;
+  final List<dynamic> follows;
 
 
   UserInfoData({this.email, this.name, this.organizations, this.followers, this.follows});
